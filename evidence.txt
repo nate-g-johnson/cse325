@@ -1,0 +1,166 @@
+1. EXISTING PIZZAS AND ADDITIONAL PIZZAS
+(GET /pizza/ shows the seeded pizzas - Classic Italian and Veggie - plus
+ the added Pepperoni and Onion and Deluxe pizzas.)
+
+GET all pizzas
+Request:
+  GET /
+
+Response:
+  HTTP/1.1 200 OK
+  Content-Type: application/json; charset=utf-8
+  Date: Thu, 29 Oct 2026 11:59:53 GMT
+  Server: Kestrel
+  Transfer-Encoding: chunked
+  
+  [{"id":1,"name":"Classic Italian","isGlutenFree":false},{"id":2,"name":"Veggie","isGlutenFree":true},{"id":4,"name":"Pepperoni and Onion","isGlutenFree":false},{"id":5,"name":"Deluxe","isGlutenFree":false}]
+
+2. OPERATIONS (request, response, status code)
+(Margherita pizza was created and then deleted.)
+
+POST - create a pizza
+Request:
+  POST /
+  Content-Type: application/json
+  Body: {"name":"Margherita","isGlutenFree":false}
+
+Response:
+  HTTP/1.1 201 Created
+  Content-Type: application/json; charset=utf-8
+  Date: Thu, 29 Oct 2026 11:59:53 GMT
+  Server: Kestrel
+  Location: https://localhost:7024/Pizza/9
+  Transfer-Encoding: chunked
+  
+  {"id":9,"name":"Margherita","isGlutenFree":false}
+
+GET - retrieve one pizza
+Request:
+  GET /9
+
+Response:
+  HTTP/1.1 200 OK
+  Content-Type: application/json; charset=utf-8
+  Date: Thu, 29 Oct 2026 11:59:53 GMT
+  Server: Kestrel
+  Transfer-Encoding: chunked
+  
+  {"id":9,"name":"Margherita","isGlutenFree":false}
+
+PUT - update a pizza
+Request:
+  PUT /9
+  Content-Type: application/json
+  Body: {"id":9,"name":"Margherita GF","isGlutenFree":true}
+
+Response:
+  HTTP/1.1 204 No Content
+  Date: Thu, 29 Oct 2026 11:59:53 GMT
+  Server: Kestrel
+
+GET - confirm the update
+Request:
+  GET /9
+
+Response:
+  HTTP/1.1 200 OK
+  Content-Type: application/json; charset=utf-8
+  Date: Thu, 29 Oct 2026 11:59:53 GMT
+  Server: Kestrel
+  Transfer-Encoding: chunked
+  
+  {"id":9,"name":"Margherita GF","isGlutenFree":true}
+
+DELETE - remove a pizza
+Request:
+  DELETE /9
+
+Response:
+  HTTP/1.1 204 No Content
+  Date: Thu, 29 Oct 2026 11:59:54 GMT
+  Server: Kestrel
+
+GET - confirm the delete (expected 404)
+Request:
+  GET /9
+
+Response:
+  HTTP/1.1 404 Not Found
+  Content-Type: application/problem+json; charset=utf-8
+  Date: Thu, 29 Oct 2026 11:59:54 GMT
+  Server: Kestrel
+  Transfer-Encoding: chunked
+  
+  {"type":"https://tools.ietf.org/html/rfc9110#section-15.5.5","title":"Not Found","status":404,"traceId":"00-c976ca45a8fc8e7bb2605554f9504c32-2e2ceca1bd75aa7c-00"}
+
+3. SALES SUMMARY FUNCTION
+
+Call site:
+
+    GenerateSalesSummary(salesFiles, storesDirectory, Path.Combine(salesTotalDir, "salesSummary.txt"));
+
+Function:
+
+    void GenerateSalesSummary(IEnumerable<string> salesFiles, string storesDirectory, string reportPath)
+    {
+        var report = new StringBuilder();
+    
+        report.AppendLine("Sales Summary");
+        report.AppendLine();
+        report.AppendLine($" Total Sales: {CalculateSalesTotal(salesFiles):C}");
+        report.AppendLine();
+        report.AppendLine(" Details:");
+    
+        foreach (var file in salesFiles)
+        {
+            // Show the path relative to the stores folder so files with the same name stay distinguishable
+            var name = Path.GetRelativePath(storesDirectory, file);
+            report.AppendLine($"  {name}: {CalculateSalesTotal(new[] { file }):C}");
+        }
+    
+        File.WriteAllText(reportPath, report.ToString());
+    }
+
+Output:
+
+    Sales Summary
+
+     Total Sales: $2,012.20
+    
+     Details:
+      sales.json: $88.88
+      201\sales.json: $501.22
+      201\salestotals.json: $0.00
+      202\sales.json: $1,234.22
+      202\salestotals.json: $0.00
+      203\sales.json: $99.00
+      203\salestotals.json: $0.00
+      204\sales.json: $88.88
+      204\salestotals.json: $0.00
+
+
+That function utilizes this:
+
+    using System.Text;
+    using Newtonsoft.Json;
+
+    double CalculateSalesTotal(IEnumerable<string> salesFiles)
+    {
+        double salesTotal = 0;
+    
+        // Loop over each file path in salesFiles
+        foreach (var file in salesFiles)
+        {
+            // Read the contents of the file
+            string salesJson = File.ReadAllText(file);
+    
+            // Parse the contents as JSON
+            SalesData? data = JsonConvert.DeserializeObject<SalesData?>(salesJson);
+    
+            // Add the amount found in the Total field to the salesTotal variable
+            salesTotal += data?.Total ?? 0;
+        }
+    
+        return salesTotal;
+    }
+    record SalesData(double Total);

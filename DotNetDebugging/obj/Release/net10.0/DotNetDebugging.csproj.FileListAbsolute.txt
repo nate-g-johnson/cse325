@@ -1,0 +1,14 @@
+D:\School\2026 November\CSE325 NET\cse325\DotNetDebugging\bin\Release\net10.0\DotNetDebugging.exe
+D:\School\2026 November\CSE325 NET\cse325\DotNetDebugging\bin\Release\net10.0\DotNetDebugging.deps.json
+D:\School\2026 November\CSE325 NET\cse325\DotNetDebugging\bin\Release\net10.0\DotNetDebugging.runtimeconfig.json
+D:\School\2026 November\CSE325 NET\cse325\DotNetDebugging\bin\Release\net10.0\DotNetDebugging.dll
+D:\School\2026 November\CSE325 NET\cse325\DotNetDebugging\bin\Release\net10.0\DotNetDebugging.pdb
+D:\School\2026 November\CSE325 NET\cse325\DotNetDebugging\obj\Release\net10.0\DotNetDebugging.GeneratedMSBuildEditorConfig.editorconfig
+D:\School\2026 November\CSE325 NET\cse325\DotNetDebugging\obj\Release\net10.0\DotNetDebugging.AssemblyInfoInputs.cache
+D:\School\2026 November\CSE325 NET\cse325\DotNetDebugging\obj\Release\net10.0\DotNetDebugging.AssemblyInfo.cs
+D:\School\2026 November\CSE325 NET\cse325\DotNetDebugging\obj\Release\net10.0\DotNetDebugging.csproj.CoreCompileInputs.cache
+D:\School\2026 November\CSE325 NET\cse325\DotNetDebugging\obj\Release\net10.0\DotNetDebugging.dll
+D:\School\2026 November\CSE325 NET\cse325\DotNetDebugging\obj\Release\net10.0\refint\DotNetDebugging.dll
+D:\School\2026 November\CSE325 NET\cse325\DotNetDebugging\obj\Release\net10.0\DotNetDebugging.pdb
+D:\School\2026 November\CSE325 NET\cse325\DotNetDebugging\obj\Release\net10.0\DotNetDebugging.genruntimeconfig.cache
+D:\School\2026 November\CSE325 NET\cse325\DotNetDebugging\obj\Release\net10.0\ref\DotNetDebugging.dll

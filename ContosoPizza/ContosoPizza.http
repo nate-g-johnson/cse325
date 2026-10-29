@@ -1,0 +1,100 @@
+@ContosoPizza_HostAddress = http://localhost:5119
+
+GET {{ContosoPizza_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
+
+GET {{ContosoPizza_HostAddress}}/pizza/
+Accept: application/json
+
+###
+
+GET {{ContosoPizza_HostAddress}}/pizza/3
+Accept: application/json
+
+###
+
+GET {{ContosoPizza_HostAddress}}/pizza/5
+Accept: application/json
+
+###
+
+POST {{ContosoPizza_HostAddress}}/pizza/
+Content-Type: application/json
+
+{
+    "name": "Hawaii",
+    "isGlutenFree": false
+}
+
+###
+
+POST {{ContosoPizza_HostAddress}}/pizza/
+Content-Type: application/json
+
+{
+    "name": "Pepperoni and Onion",
+    "isGlutenFree": false
+}
+
+###
+
+POST {{ContosoPizza_HostAddress}}/pizza/
+Content-Type: application/json
+
+{
+    "name": "Deluxe",
+    "isGlutenFree": false
+}
+
+###
+
+PUT {{ContosoPizza_HostAddress}}/pizza/3
+Content-Type: application/json
+
+{
+    "id": 3,
+    "name": "Hawaiian",
+    "isGlutenFree": false
+}
+
+###
+
+DELETE {{ContosoPizza_HostAddress}}/pizza/3
+
+###
+
+# POST -> 201 Created, body is the new pizza (id 6), Location: /Pizza/6
+POST {{ContosoPizza_HostAddress}}/pizza/
+Content-Type: application/json
+
+{
+    "name": "Margherita",
+    "isGlutenFree": false
+}
+
+###
+
+# GET one -> 200 OK, {"id":6,"name":"Margherita","isGlutenFree":false}
+GET {{ContosoPizza_HostAddress}}/pizza/6
+Accept: application/json
+
+###
+
+# PUT -> 204 No Content (empty body)
+PUT {{ContosoPizza_HostAddress}}/pizza/6
+Content-Type: application/json
+
+{
+    "id": 6,
+    "name": "Margherita GF",
+    "isGlutenFree": true
+}
+
+###
+
+# DELETE -> 204 No Content (empty body); a later GET /pizza/6 returns 404 Not Found
+DELETE {{ContosoPizza_HostAddress}}/pizza/6
+
+###
